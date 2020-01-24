@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.fascinations.BannerPagerAdapter;
 import com.fascinations.CouponAdapter;
 import com.fascinations.R;
 import com.fascinations.ui.CouponBean;
@@ -43,9 +45,10 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final ListView listView = root.findViewById(R.id.list_view);
+        final ViewPager viewPager = root.findViewById(R.id.view_pager);
 
+        // Banners API Call
 
-        // Coupons API call
         SharedPreferences sp = getActivity().getSharedPreferences("F", Context.MODE_PRIVATE);
         final String token = sp.getString("token", "");
 
@@ -57,6 +60,55 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
         RequestQueue queue = Volley.newRequestQueue(getActivity());
+
+        final List<String> bannerList = new ArrayList<>();
+
+        JsonObjectRequest bannerJsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, "http://www.storiesforgames.com/fascinations/api/banners",null ,new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            Log.i("Response : ", response.toString());
+                            bannerList.clear();
+                            JSONArray jsonArray = response.getJSONArray("bannerlist");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                bannerList.add(jsonObject.getString("banner_url"));
+                            }
+
+                            BannerPagerAdapter bannerPagerAdapter = new BannerPagerAdapter(getActivity(), bannerList);
+                            viewPager.setAdapter(bannerPagerAdapter);
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("Error : ",error.toString());
+
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + token);
+                params.put("Accept", "application/json");
+
+                return params;
+            }
+        };
+
+        queue.add(bannerJsonObjectRequest);
+
+
+        // Coupons API call
+
         final List<CouponBean> couponBeanList = new ArrayList<>();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -107,8 +159,6 @@ public class HomeFragment extends Fragment {
         };
 
         queue.add(jsonObjectRequest);
-
-
 
 
 
