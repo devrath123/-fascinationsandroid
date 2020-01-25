@@ -2,6 +2,7 @@ package com.fascinations;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -107,6 +108,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        TextView forgot_pwd = findViewById(R.id.forgot_pwd);
+        forgot_pwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("http://www.storiesforgames.com/fascinations/password/reset");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
     }
 
 }
