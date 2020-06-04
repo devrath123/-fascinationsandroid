@@ -70,7 +70,7 @@ public class GalleryFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, "http://www.storiesforgames.com/fascinations/api/url",null ,new Response.Listener<JSONObject>() {
+                (Request.Method.GET, "http://fascinations.streetkart.in/api/url",null ,new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {

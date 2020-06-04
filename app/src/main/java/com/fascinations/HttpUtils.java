@@ -11,7 +11,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class HttpUtils {
 
-    private static final String BASE_URL = "http://www.storiesforgames.com/fascinations/api/";
+    private static final String BASE_URL = "http://fascinations.streetkart.in/api";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

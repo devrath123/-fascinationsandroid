@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
         final List<String> bannerList = new ArrayList<>();
 
         JsonObjectRequest bannerJsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, "http://www.storiesforgames.com/fascinations/api/banners",null ,new Response.Listener<JSONObject>() {
+                (Request.Method.GET, "http://fascinations.streetkart.in/api/banners",null ,new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment {
         final List<CouponBean> couponBeanList = new ArrayList<>();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, "http://www.storiesforgames.com/fascinations/api/getallcoupon",null ,new Response.Listener<JSONObject>() {
+                (Request.Method.GET, "http://fascinations.streetkart.in/api/getallcoupon",null ,new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
